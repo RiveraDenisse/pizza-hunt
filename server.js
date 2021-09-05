@@ -11,7 +11,7 @@ app.use(express.static("public"));
 app.use(require("./routes"));
 //mongoose.connect() tells mongoose which database we want to connect to
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/pizza-hunt", {
-  useFindAndModify: false,
+  // useFindAndModify: false,
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
