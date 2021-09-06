@@ -3,8 +3,17 @@ const { Pizza } = require("../models");
 const pizzaController = {
   // get all pizzas
   getAllPizza(req, res) {
-    //.fin() is the Mongoose method similar to Sequeliza .findAll()
+    //.find() is the Mongoose method similar to Sequeliza .findAll()
     Pizza.find({})
+      //this will populate the comment field
+      .populate({
+        path: "comments",
+        // - in the -__v means we don't want it to be returned
+        select: "-__v",
+      })
+      .select("-__v")
+      //this wil sort the pizzas showing the latest pizza first
+      .sort({ _id: -1 })
       .then((dbPizzaData) => res.json(dbPizzaData))
       .catch((err) => {
         console.log(err);
@@ -15,6 +24,11 @@ const pizzaController = {
   // get one pizza by id
   getPizzaById({ params }, res) {
     Pizza.findOne({ _id: params.id })
+      .populate({
+        path: "comments",
+        select: "-__v",
+      })
+      .select("-__v")
       .then((dbPizzaData) => {
         // If no pizza is found, send 404
         if (!dbPizzaData) {
